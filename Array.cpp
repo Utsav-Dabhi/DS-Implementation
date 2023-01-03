@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 struct MyArray {
@@ -55,6 +56,44 @@ void deleteFromBetween(MyArray* a, int pos) {
     }
 
     a->used_size--;
+}
+
+void searchArray(MyArray* a, int ele, char ch = 'n') {
+    vector<int> v;
+
+    int ifExist = 0, firstOcc = -1, noOfOccurs = 0;
+    for (int i = 0; i < a->used_size; i++) {
+        if (a->ptr[i] == ele) {
+            ifExist = 1;
+            if (firstOcc == -1) {
+                firstOcc = i + 1;
+            }
+
+            v.push_back(i + 1);
+
+            noOfOccurs++;
+        }
+    }
+
+    if (ch == 'n') {
+        if (ifExist) {
+            cout << "\nElement found at position: " << firstOcc << endl;
+        } else {
+            cout << "\nThe given element is not present!" << endl;
+        }
+    } else if (ch == 'y') {
+        if (ifExist) {
+            cout << "\nFirst occurrence of element '" << ele << "' is at position: " << firstOcc;
+            cout << "\nNumber of occurrences of element '" << ele << "': " << noOfOccurs;
+            cout << "\nThe given element was found at positons: [ ";
+            for (auto u: v) {
+                cout << u << " ";
+            }
+            cout << "]" << endl;
+        } else {
+            cout << "\nThe given element is not present!" << endl;
+        }
+    }
 }
 
 void showArray(MyArray* a) {
@@ -165,6 +204,18 @@ int main() {
                     cout << "\nOnly 32-bit integers are allowed";
                     cout << "\nRe-enter element: ";
                     cin >> searchEle;
+                }
+
+                char ch;
+                cout << "\nDo you want to find no of occurrences? (Y/N): ";
+                cin >> ch;
+
+                ch = char(tolower(ch));
+
+                if (ch == 'y') {
+                    searchArray(&newArray, searchEle, 'y');
+                } else {
+                    searchArray(&newArray, searchEle);
                 }
                 continue;
 
