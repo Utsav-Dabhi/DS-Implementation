@@ -16,7 +16,6 @@ void createArray(MyArray* a, int tSize, int uSize) {
 }
 
 void setValue(MyArray* a) {
-    int n;
     cout << "\nEnter the elements of array ->\n";
     for (int i = 0; i < a->used_size; i++) {
         cout << "Enter element " << i << ": ";
@@ -96,7 +95,24 @@ void searchArray(MyArray* a, int ele, char ch = 'n') {
     }
 }
 
+void replace(MyArray* a, int ele, int pos) {
+    if (a->used_size == 0) {
+        cout << "\nNo elements in Array to replace!" << endl;
+        return;
+    }
+
+    a->ptr[pos - 1] = ele;
+}
+
+void sort(MyArray* a) {
+}
+
 void showArray(MyArray* a) {
+    if (a->used_size == 0) {
+        cout << "\nNo elements in Array to print!" << endl;
+        return;
+    }
+
     cout << "\nThe elements of array are -> ";
     for (int i = 0; i < a->used_size; i++) {
         cout << a->ptr[i] << " ";
@@ -108,9 +124,8 @@ int main() {
     MyArray newArray;
 
     int i = 0;
-    int arrayFlag = 0;
-    while (i != 8) {
-        cout << "\nWhat operation do you want to perform?\n1. Create an array\n2. Insert element (at end)\n3. Delete element (from end)\n4. Insert element (in between)\n5. Delete element (from between)\n6. Search an element\n7. Print array\n8. Exit\nChoice: ";
+    while (i != 10) {
+        cout << "\nWhat operation do you want to perform?\n1. Create an array\n2. Insert element (at end)\n3. Delete element (from end)\n4. Insert element (in between)\n5. Delete element (from between)\n6. Search an element\n7. Replace element\n8. Sort array\n9. Print array\n10. Exit\nChoice: ";
         cin >> i;
 
         switch(i) {
@@ -124,9 +139,10 @@ int main() {
                     cout << "Re-enter values: ";
                     cin >> t >> n;
                 }
+
                 createArray(&newArray, t, n);
                 setValue(&newArray);
-                arrayFlag = 1;
+
                 continue;
 
             case 2:
@@ -220,14 +236,34 @@ int main() {
                 continue;
 
             case 7:
-                if (arrayFlag == 0) {
-                    cout << "\nNo array to print" << endl;
-                } else {
-                    showArray(&newArray);
+                cout << "\nEnter the element and position seperated by space: ";
+                cin >> ele >> pos;
+
+                while (pos > newArray.total_size) {
+                    cout << "\nPosition greater than size of Array! Cannot enter element";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
                 }
+
+                while (pos <= 0) {
+                    cout << "\nPosition cannot be less than 1";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
+                }
+
+                replace(&newArray, ele, pos);
+                showArray(&newArray);
+                continue;
+
+            case 8:
+                sort(&newArray);
                 continue;
             
-            case 8:
+            case 9:
+                showArray(&newArray);
+                continue;
+            
+            case 10:
                 cout << "\nExited successfully";
                 break;
         }
