@@ -45,19 +45,86 @@ void push(int ele) {
 
 void insert(int ele, int pos) {
     pos-=2;
-    Node* new_node = new Node;
 
     Node* ptr = head;
     while (pos--) {
         ptr = ptr->next;
     }
     
+    Node* new_node = new Node;
     new_node->data = ele;
     new_node->next = ptr->next;
     ptr->next = new_node;
+
+    llLength++;
+}
+
+void truncate() {
+    if (head == tail) {
+        head = tail = NULL;
+
+        llLength--;
+
+        return;
+    }
+
+    int localLength = llLength - 2;
+
+    Node* ptr = head;
+    while (localLength--) {
+        ptr = ptr->next;
+    }
+
+    ptr->next = NULL;
+
+    llLength--;
+}
+
+void pop() {
+    if (head == tail) {
+        head = tail = NULL;
+
+        llLength--;
+
+        return;
+    }
+
+    Node* ptr = head->next;
+    head = ptr;
+
+    llLength--;
+}
+
+void remove(int pos) {
+    if (head == tail) {
+        head = tail = NULL;
+
+        llLength--;
+
+        return;
+    }
+
+    pos-=2;
+
+    Node* ptr1 = head;
+    while (pos--) {
+        ptr1 = ptr1->next;
+    }
+
+    Node* ptr2 = ptr1->next;
+    Node* ptr3 = ptr2->next;
+
+    ptr1->next = ptr3;
+
+    llLength--;
 }
 
 void displayLL() {
+    if (llLength == 0) {
+        cout << "\nNo elements in the Linked List to diaplay!" << endl;
+        return;
+    }
+
     Node* ptr = head;
 
     cout << "\nThe elements in Linked List are: ";
@@ -127,6 +194,36 @@ int main() {
                 }
 
                 insert(ele, pos);
+                displayLL();
+                continue;
+            
+            case 5:
+                truncate();
+                displayLL();
+                continue;
+            
+            case 6:
+                pop();
+                displayLL();
+                continue;
+
+            case 7:
+                cout << "\nEnter the element index's to be deleted: ";
+                cin >> pos;
+
+                while (pos > llLength) {
+                    cout << "\nPosition greater than size of Linked List! Cannot enter element";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
+                }
+
+                while (pos <= 0) {
+                    cout << "\nPosition cannot be less than 1";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
+                }
+
+                remove(pos);
                 displayLL();
                 continue;
             
