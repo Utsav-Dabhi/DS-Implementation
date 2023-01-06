@@ -119,6 +119,28 @@ void remove(int pos) {
     llLength--;
 }
 
+void search(int ele) {
+    if (llLength == 0) {
+        cout << "\nNo elements in the Linked List to search!" << endl;
+        return;
+    }
+
+    int pos = 1;
+
+    Node* ptr = head;
+    while (ptr != NULL) {
+        if (ptr->data == ele) {
+            cout << "\nElement is found at position: " << pos << endl;
+            return;
+        }
+
+        ptr = ptr->next;
+        pos++;
+    }
+
+    cout << "\nNo element found!" << endl;
+}
+
 void displayLL() {
     if (llLength == 0) {
         cout << "\nNo elements in the Linked List to diaplay!" << endl;
@@ -138,7 +160,6 @@ void displayLL() {
 int main() {
 
     int i = 0;
-    int llFlag = 0;
     while (i != 10) {
         cout << "\nWhat operation do you want to perform?\n1. Create a linked list\n2. Insert element (at end)\n3. Insert element (at beginning)\n4. Insert element (in between)\n5. Delete element (from end)\n6. Delete element (from beginning)\n7. Delete element (from between)\n8. Search an element\n9. Display linked list\n10. Exit\nChoice: ";
         cin >> i;
@@ -155,9 +176,8 @@ int main() {
                     cin >> num;
                     append(num);
                 }
-                displayLL();
-                llFlag = 1;
                 
+                displayLL();
                 continue;
             
             case 2:
@@ -227,12 +247,22 @@ int main() {
                 displayLL();
                 continue;
             
-            case 9:
-                if (llFlag == 0) {
-                    cout << "\nNo elements in Linked List to display!" << endl;
-                } else {
-                    displayLL();
+            case 8:
+                cout << "\nEnter the element to be searched: ";
+                cin >> num;
+
+                while (num > INT_MAX || num < INT_MIN) {
+                    cout << "\nOnly 32-bit integers are allowed";
+                    cout << "\nRe-enter element: ";
+                    cin >> num;
                 }
+
+                search(num);
+
+                continue;
+            
+            case 9:
+                displayLL();
                 continue;
             
             case 10:
