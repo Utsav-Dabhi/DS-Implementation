@@ -1,15 +1,17 @@
 #include<iostream>
 using namespace std;
 
+struct Node* head = NULL;
+struct Node* tail = NULL;
+
+int llLength = 0;
+
 struct Node {
     int data;
     struct Node* next;
 };
 
-struct Node* head = NULL;
-struct Node* tail = NULL;
-
-void addElement(int ele) {
+void append(int ele) {
     Node* new_node = new Node;
     new_node->data = ele;
     new_node->next = NULL;
@@ -21,6 +23,38 @@ void addElement(int ele) {
         tail->next = new_node;
         tail = tail->next;
     }
+
+    llLength++;
+}
+
+void push(int ele) {
+    Node* new_node = new Node;
+    new_node->data = ele;
+    new_node->next = NULL;
+
+    if (head == NULL) {
+        head = new_node;
+        tail = new_node;
+    } else {
+        new_node->next = head;
+        head = new_node;
+    }
+
+    llLength++;
+}
+
+void insert(int ele, int pos) {
+    pos-=2;
+    Node* new_node = new Node;
+
+    Node* ptr = head;
+    while (pos--) {
+        ptr = ptr->next;
+    }
+    
+    new_node->data = ele;
+    new_node->next = ptr->next;
+    ptr->next = new_node;
 }
 
 void displayLL() {
@@ -28,18 +62,18 @@ void displayLL() {
 
     cout << "\nThe elements in Linked List are: ";
     while (ptr != NULL) {
-        cout << ptr->data << " ";
+        cout << ptr->data << " -> ";
         ptr = ptr->next;
     }
-
-    cout << endl;
+    cout << "NULL" << endl;
 }
  
 int main() {
 
     int i = 0;
-    while (i != 8) {
-        cout << "\nWhat operation do you want to perform?\n1. Create a linked list\n2. Insert element (at end)\n3. Delete element (from end)\n4. Insert element (in between)\n5. Delete element (from between)\n6. Search an element\n7. Display linked list\n8. Exit\nChoice: ";
+    int llFlag = 0;
+    while (i != 10) {
+        cout << "\nWhat operation do you want to perform?\n1. Create a linked list\n2. Insert element (at end)\n3. Insert element (at beginning)\n4. Insert element (in between)\n5. Delete element (from end)\n6. Delete element (from beginning)\n7. Delete element (from between)\n8. Search an element\n9. Display linked list\n10. Exit\nChoice: ";
         cin >> i;
 
         switch(i) {
@@ -52,13 +86,59 @@ int main() {
                 for (int i = 0; i < n; i++) {
                     cout << "Enter element " << i << ": ";
                     cin >> num;
-                    addElement(num);
+                    append(num);
                 }
                 displayLL();
+                llFlag = 1;
                 
                 continue;
             
-            case 8:
+            case 2:
+                cout << "\nEnter the element to be inserted: ";
+                cin >> num;
+
+                append(num);
+                displayLL();
+                continue;
+
+            case 3:
+                cout << "\nEnter the element to be inserted: ";
+                cin >> num;
+
+                push(num);
+                displayLL();
+                continue;
+
+            case 4:
+                int ele, pos;
+                cout << "\nEnter the element and position seperated by space: ";
+                cin >> ele >> pos;
+
+                while (pos > llLength) {
+                    cout << "\nPosition greater than size of Linked List! Cannot enter element";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
+                }
+
+                while (pos <= 0) {
+                    cout << "\nPosition cannot be less than 1";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
+                }
+
+                insert(ele, pos);
+                displayLL();
+                continue;
+            
+            case 9:
+                if (llFlag == 0) {
+                    cout << "\nNo elements in Linked List to display!" << endl;
+                } else {
+                    displayLL();
+                }
+                continue;
+            
+            case 10:
                 cout << "\nExited successfully";
                 break;
         }
