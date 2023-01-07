@@ -104,8 +104,34 @@ void replace(MyArray* a, int ele, int pos) {
     a->ptr[pos - 1] = ele;
 }
 
-void sort(MyArray* a) {
+// functions related to sorting
+int Partition(MyArray* a, int start, int end) {
+    int pivot = a->ptr[end];
+
+    int partitionIndex = start;
+    for (int i = start; i < end; i++) {
+        if (a->ptr[i] <= pivot) {
+            swap(a->ptr[i], a->ptr[partitionIndex]);
+            partitionIndex++;
+        }
+    }
+
+    swap(a->ptr[partitionIndex], a->ptr[end]);
+    return partitionIndex;
 }
+
+void QuickSort(MyArray* a, int start, int end) {
+    if (start < end) {
+        int pIndex = Partition(a, start, end);
+        QuickSort(a, start, pIndex - 1);
+        QuickSort(a, pIndex + 1, end);
+    }
+}
+
+void sort(MyArray* a) {
+    QuickSort(a, 0, a->used_size - 1);
+}
+// sorting functions end
 
 void showArray(MyArray* a) {
     if (a->used_size == 0) {
@@ -122,6 +148,8 @@ void showArray(MyArray* a) {
 
 int main() {
     MyArray newArray;
+    newArray.total_size = 0;
+    newArray.used_size = 0;
 
     int i = 0;
     while (i != 10) {
@@ -157,106 +185,127 @@ int main() {
                     insertAtEnd(&newArray, num);
                     showArray(&newArray);
                 }
+
                 continue;
 
             case 3:
                 if (newArray.used_size == 0) {
-                    cout << "\nEmpty Array! Cannot delete elements";
+                    cout << "\nEmpty Array! Cannot delete element" << endl;
                 } else {
                     deleteAtEnd(&newArray);
                 }
+
                 continue;
 
             case 4:
                 int ele, pos;
-                cout << "\nEnter the element and position seperated by space: ";
-                cin >> ele >> pos;
-
-                while (pos > newArray.total_size) {
-                    cout << "\nPosition greater than size of Array! Cannot enter element";
-                    cout << "\nRe-enter position: ";
-                    cin >> pos;
-                }
-
-                while (pos <= 0) {
-                    cout << "\nPosition cannot be less than 1";
-                    cout << "\nRe-enter position: ";
-                    cin >> pos;
-                }
 
                 if (newArray.used_size == newArray.total_size) {
                     cout << "\nArray is full. Cannot enter new element" << endl;
                 } else {
+                    cout << "\nEnter the element and position seperated by space: ";
+                    cin >> ele >> pos;
+
+                    while (pos > newArray.total_size) {
+                        cout << "\nPosition greater than size of Array! Cannot enter element";
+                        cout << "\nRe-enter position: ";
+                        cin >> pos;
+                    }
+
+                    while (pos <= 0) {
+                        cout << "\nPosition cannot be less than 1";
+                        cout << "\nRe-enter position: ";
+                        cin >> pos;
+                    }
+
                     insertInBetween(&newArray, ele, pos);
                     showArray(&newArray);
                 }
+
                 continue;
 
             case 5:
-                int ind;
-                cout << "\nEnter the element index's to be deleted: ";
-                cin >> ind;
-
-                while (ind > newArray.total_size || ind <= 0) {
-                    cout << "\nYou have entered index greater than total size or less than 1";
-                    cout << "\nRe-enter position: ";
-                    cin >> ind;
-                }
-
                 if (newArray.used_size == 0) {
                     cout << "\nNo elements to delete" << endl;
                 } else {
+                    int ind;
+                    cout << "\nEnter the element index's to be deleted: ";
+                    cin >> ind;
+
+                    while (ind > newArray.total_size || ind <= 0) {
+                        cout << "\nYou have entered index greater than total size or less than 1";
+                        cout << "\nRe-enter position: ";
+                        cin >> ind;
+                    }
+
                     deleteFromBetween(&newArray, ind);
                     showArray(&newArray);
                 }
+
                 continue;
 
             case 6:
-                int searchEle;
-                cout << "\nEnter the element to be searched: ";
-                cin >> searchEle;
-
-                while (searchEle > INT_MAX || searchEle < INT_MIN) {
-                    cout << "\nOnly 32-bit integers are allowed";
-                    cout << "\nRe-enter element: ";
-                    cin >> searchEle;
-                }
-
-                char ch;
-                cout << "\nDo you want to find no of occurrences? (Y/N): ";
-                cin >> ch;
-
-                ch = char(tolower(ch));
-
-                if (ch == 'y') {
-                    searchArray(&newArray, searchEle, 'y');
+                if (newArray.used_size == 0) {
+                    cout << "\nNo elements in array to search" << endl;
                 } else {
-                    searchArray(&newArray, searchEle);
+                    int searchEle;
+                    cout << "\nEnter the element to be searched: ";
+                    cin >> searchEle;
+
+                    while (searchEle > INT_MAX || searchEle < INT_MIN) {
+                        cout << "\nOnly 32-bit integers are allowed";
+                        cout << "\nRe-enter element: ";
+                        cin >> searchEle;
+                    }
+
+                    char ch;
+                    cout << "\nDo you want to find no of occurrences? (Y/N): ";
+                    cin >> ch;
+
+                    ch = char(tolower(ch));
+                    if (ch == 'y') {
+                        searchArray(&newArray, searchEle, 'y');
+                    } else {
+                        searchArray(&newArray, searchEle);
+                    }
                 }
+
                 continue;
 
             case 7:
-                cout << "\nEnter the element and position seperated by space: ";
-                cin >> ele >> pos;
+                if (newArray.used_size == 0) {
+                    cout << "\nNo elements in array to replace" << endl;
+                } else {
+                    cout << "\nEnter the element and position seperated by space: ";
+                    cin >> ele >> pos;
 
-                while (pos > newArray.total_size) {
-                    cout << "\nPosition greater than size of Array! Cannot enter element";
-                    cout << "\nRe-enter position: ";
-                    cin >> pos;
+                    while (pos > newArray.total_size) {
+                        cout << "\nPosition greater than size of Array! Cannot enter element";
+                        cout << "\nRe-enter position: ";
+                        cin >> pos;
+                    }
+
+                    while (pos <= 0) {
+                        cout << "\nPosition cannot be less than 1";
+                        cout << "\nRe-enter position: ";
+                        cin >> pos;
+                    }
+
+                    replace(&newArray, ele, pos);
+                    showArray(&newArray);
                 }
-
-                while (pos <= 0) {
-                    cout << "\nPosition cannot be less than 1";
-                    cout << "\nRe-enter position: ";
-                    cin >> pos;
-                }
-
-                replace(&newArray, ele, pos);
-                showArray(&newArray);
+                
                 continue;
 
             case 8:
-                sort(&newArray);
+                if (newArray.used_size == 0) {
+                    cout << "\nNo elements in array to sort" << endl;
+                } else {
+                    sort(&newArray);
+                    cout << "\nArray after sorting:";
+                    showArray(&newArray);
+                }
+
                 continue;
             
             case 9:
