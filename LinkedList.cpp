@@ -44,7 +44,7 @@ void push(int ele) {
 }
 
 void insert(int ele, int pos) {
-    pos-=2;
+    pos -= 2;
 
     Node* ptr = head;
     while (pos--) {
@@ -104,7 +104,7 @@ void remove(int pos) {
         return;
     }
 
-    pos-=2;
+    pos -= 2;
 
     Node* ptr1 = head;
     while (pos--) {
@@ -117,6 +117,18 @@ void remove(int pos) {
     ptr1->next = ptr3;
 
     llLength--;
+}
+
+void replace(int ele, int pos) {
+    pos -= 1;
+
+    Node* ptr = head;
+
+    while (pos--) {
+        ptr = ptr->next;
+    }
+
+    ptr->data = ele;
 }
 
 void search(int ele) {
@@ -160,8 +172,8 @@ void displayLL() {
 int main() {
 
     int i = 0;
-    while (i != 10) {
-        cout << "\nWhat operation do you want to perform?\n1. Create a linked list\n2. Insert element (at end)\n3. Insert element (at beginning)\n4. Insert element (in between)\n5. Delete element (from end)\n6. Delete element (from beginning)\n7. Delete element (from between)\n8. Search an element\n9. Display linked list\n10. Exit\nChoice: ";
+    while (i != 11) {
+        cout << "\nWhat operation do you want to perform?\n1. Create a linked list\n2. Insert element (at end)\n3. Insert element (at beginning)\n4. Insert element (in between)\n5. Delete element (from end)\n6. Delete element (from beginning)\n7. Delete element (from between)\n8. Search an element\n9. Replace element\n10. Display linked list\n11. Exit\nChoice: ";
         cin >> i;
 
         switch(i) {
@@ -178,6 +190,7 @@ int main() {
                 }
                 
                 displayLL();
+
                 continue;
             
             case 2:
@@ -186,6 +199,7 @@ int main() {
 
                 append(num);
                 displayLL();
+
                 continue;
 
             case 3:
@@ -194,6 +208,7 @@ int main() {
 
                 push(num);
                 displayLL();
+                
                 continue;
 
             case 4:
@@ -215,6 +230,7 @@ int main() {
 
                 insert(ele, pos);
                 displayLL();
+
                 continue;
             
             case 5:
@@ -245,6 +261,7 @@ int main() {
 
                 remove(pos);
                 displayLL();
+
                 continue;
             
             case 8:
@@ -260,12 +277,37 @@ int main() {
                 search(num);
 
                 continue;
-            
+
             case 9:
-                displayLL();
+                if (llLength == 0) {
+                    cout << "No element in Linked List to replace";
+                } else {
+                    cout << "\nEnter the element and position seperated by space: ";
+                    cin >> ele >> pos;
+
+                    while (pos > llLength) {
+                    cout << "\nPosition greater than size of Linked List! Cannot enter element";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
+                    }
+
+                    while (pos <= 0) {
+                        cout << "\nPosition cannot be less than 1";
+                        cout << "\nRe-enter position: ";
+                        cin >> pos;
+                    }
+
+                    replace(ele, pos);
+                    displayLL();
+                }
+
                 continue;
             
             case 10:
+                displayLL();
+                continue;
+            
+            case 11:
                 cout << "\nExited successfully";
                 break;
         }
