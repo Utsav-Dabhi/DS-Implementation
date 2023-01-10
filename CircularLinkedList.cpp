@@ -74,8 +74,6 @@ void truncate() {
         head = tail = NULL;
 
         cllLength--;
-
-        return;
     } else {
         int localLength = cllLength - 2;
 
@@ -89,6 +87,8 @@ void truncate() {
 
         cllLength--;
     }
+
+    cout << "\nElement deleted successfully!";
 }
 
 void pop() {
@@ -101,8 +101,6 @@ void pop() {
         head = tail = NULL;
 
         cllLength--;
-
-        return;
     } else {
         Node* ptr = head->next;
         head = ptr;
@@ -111,6 +109,8 @@ void pop() {
 
         cllLength--;
     }
+
+    cout << "\nElement deleted successfully!";
 }
 
 void remove(int pos) {
@@ -123,8 +123,6 @@ void remove(int pos) {
         head = tail = NULL;
 
         cllLength--;
-
-        return;
     } else {
         pos -= 2;
 
@@ -137,6 +135,51 @@ void remove(int pos) {
 
         cllLength--;
     }
+
+    cout << "\nElement deleted successfully!";
+}
+
+void search(int ele) {
+    if (cllLength == 0) {
+        cout << "\nNo elements to search!" << endl;
+        return;
+    }
+
+    int pos = 1;
+
+    Node* ptr = head;
+    while (ptr != tail) {
+        if (ptr->data == ele) {
+            cout << "\nElement is found at position: " << pos << endl;
+            return;
+        }
+
+        ptr = ptr->next;
+        pos++;
+    }
+
+    if (ptr->data == ele) {
+        cout << "\nElement is found at position: " << pos << endl;
+        return;
+    }
+
+    cout << "\nNo element found!" << endl;
+}
+
+void replace(int ele, int pos) {
+    if (cllLength == 0) {
+        cout << "\nNo elements to replace!" << endl;
+        return;
+    }
+
+    pos -= 1;
+
+    Node* ptr = head;
+    while (pos--) {
+        ptr = ptr->next;
+    }
+
+    ptr->data = ele;
 }
 
 void displayCLL() {
@@ -158,8 +201,8 @@ void displayCLL() {
  
 int main() {
     int i = 0;
-    while (i != 8) {
-        cout << "\nWhat operation do you want to perform?\n1. Create a circular linked list\n2. Insert element (at end)\n3. Insert element (in beginning)\n4. Insert element (in between)\n5. Delete element (from end)\n6. Delete element (from beginning)\n7. Delete element (from between)\n8. Exit\nChoice: ";
+    while (i != 11) {
+        cout << "\nWhat operation do you want to perform?\n1. Create a circular linked list\n2. Insert element (at end)\n3. Insert element (in beginning)\n4. Insert element (in between)\n5. Delete element (from end)\n6. Delete element (from beginning)\n7. Delete element (from between)\n8. Search an element\n9. Replace element\n10. Display linked list\n11. Exit\nChoice: ";
         cin >> i;
 
         switch(i) {
@@ -251,6 +294,45 @@ int main() {
                 continue;
 
             case 8:
+                cout << "\nEnter the element to be searched: ";
+                cin >> num;
+
+                while (num > INT_MAX || num < INT_MIN) {
+                    cout << "\nOnly 32-bit integers are allowed";
+                    cout << "\nRe-enter element: ";
+                    cin >> num;
+                }
+
+                search(num);
+
+                continue;
+            
+            case 9:
+                cout << "\nEnter the element and position seperated by space: ";
+                cin >> num >> pos;
+
+                while (pos > cllLength) {
+                    cout << "\nPosition greater than size of Linked List! Cannot enter element";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
+                }
+
+                while (pos <= 0) {
+                    cout << "\nPosition cannot be less than 1";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
+                }
+
+                replace(num, pos);
+                displayCLL();
+
+                continue;
+
+            case 10:
+                displayCLL();
+                continue;
+
+            case 11:
                 cout << "\nExited successfully";
                 break;
         }
