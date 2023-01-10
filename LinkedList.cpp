@@ -21,7 +21,7 @@ void append(int ele) {
         tail = new_node;
     } else {
         tail->next = new_node;
-        tail = tail->next;
+        tail = new_node;
     }
 
     llLength++;
@@ -44,15 +44,15 @@ void push(int ele) {
 }
 
 void insert(int ele, int pos) {
-    pos -= 2;
+    Node* new_node = new Node;
+    new_node->data = ele;
 
+    pos -= 2;
     Node* ptr = head;
     while (pos--) {
         ptr = ptr->next;
     }
     
-    Node* new_node = new Node;
-    new_node->data = ele;
     new_node->next = ptr->next;
     ptr->next = new_node;
 
@@ -68,6 +68,7 @@ void truncate() {
         return;
     }
 
+    // SAME IS DONE BELOW
     int localLength = llLength - 2;
 
     Node* ptr = head;
@@ -76,6 +77,13 @@ void truncate() {
     }
 
     ptr->next = NULL;
+
+    // Node* ptr = head;
+    // while (ptr->next->next != NULL) {
+    //     ptr = ptr->next;
+    // }
+
+    // ptr->next = NULL;
 
     llLength--;
 }
@@ -89,8 +97,9 @@ void pop() {
         return;
     }
 
-    Node* ptr = head->next;
-    head = ptr;
+    // Node* ptr = head->next;
+    // head = ptr;
+    head = head->next;
 
     llLength--;
 }
@@ -106,24 +115,29 @@ void remove(int pos) {
 
     pos -= 2;
 
-    Node* ptr1 = head;
+    // Node* ptr1 = head;
+    Node* ptr = head;
     while (pos--) {
-        ptr1 = ptr1->next;
+        ptr = ptr->next;
+        // ptr1 = ptr1->next;
     }
 
-    Node* ptr2 = ptr1->next;
-    Node* ptr3 = ptr2->next;
+    // 1
+    // Node* ptr2 = ptr1->next;
+    // Node* ptr3 = ptr2->next;
+    
+    // 2
+    // Node* ptr2 = ptr1->next->next;
 
-    ptr1->next = ptr3;
+    ptr->next = ptr->next->next;
 
     llLength--;
 }
 
 void replace(int ele, int pos) {
-    pos -= 1;
-
     Node* ptr = head;
 
+    pos -= 1;
     while (pos--) {
         ptr = ptr->next;
     }
