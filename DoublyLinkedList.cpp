@@ -123,6 +123,21 @@ void remove(int pos) {
     dllLength--;
 }
 
+void reverseTraversal() {
+    if (head == NULL) {
+        cout << "\nNo elements to print!" << endl;
+        return;
+    }
+
+    Node* ptr = tail;
+    cout << "\nThe elements in reverse order are: NULL <- ";
+    while (ptr->prev != NULL) {
+        cout << ptr->data << " <-> ";
+        ptr = ptr->prev;
+    }
+    cout << ptr->data << " -> NULL" << endl;
+}
+
 void displayDLL() {
     if (head == NULL) {
         cout << "\nNo elements to print!" << endl;
@@ -143,8 +158,8 @@ void displayDLL() {
  
 int main() {
     int i = 0;
-    while (i != 11) {
-        cout << "\nWhat operation do you want to perform?\n1. Create a doubly linked list\n2. Insert element (at end)\n3. Insert element (at beginning)\n4. Insert element (in between)\n5. Delete element (from end)\n6. Delete element (from beginning)\n7. Delete element (from between)\n8. Search an element\n9. Replace element\n10. Display linked list\n11. Exit\nChoice: ";
+    while (i != 10) {
+        cout << "\nWhat operation do you want to perform?\n1. Create a doubly linked list\n2. Insert element (at end)\n3. Insert element (at beginning)\n4. Insert element (in between)\n5. Delete element (from end)\n6. Delete element (from beginning)\n7. Delete element (from between)\n8. Reverse Traversal\n9. Display linked list\n10. Exit\nChoice: ";
         cin >> i;
 
         switch(i) {
@@ -235,7 +250,15 @@ int main() {
 
                 continue;
 
-            case 11:
+            case 8:
+                reverseTraversal();
+                continue;
+
+            case 9:
+                displayDLL();
+                continue;
+
+            case 10:
                 cout << "\nExited successfully";
                 break;
         }
