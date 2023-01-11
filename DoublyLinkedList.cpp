@@ -67,6 +67,62 @@ void insert(int ele, int pos) {
     ptr->next = new_node;
 }
 
+void truncate() {
+    if (dllLength == 0) {
+        cout << "\nNo elements to delete" << endl;
+        return;
+    }
+
+    if (head == tail) {
+        head = tail = NULL;
+    } else {
+        tail = tail->prev;
+        tail->next = NULL;
+    }
+
+    dllLength--;
+}
+
+void pop() {
+    if (dllLength == 0) {
+        cout << "\nNo elements to delete" << endl;
+        return;
+    }
+
+    if (head == tail) {
+        head = tail = NULL;
+    } else {
+        head = head->next;
+        head->prev = NULL;
+    }
+
+    dllLength--;
+}
+
+void remove(int pos) {
+    if (dllLength == 0) {
+        cout << "\nNo elements to delete" << endl;
+        return;
+    }
+
+    if (head == tail) {
+        head = tail = NULL;
+    } else {
+        pos -= 2;
+
+        Node* ptr = head;
+        while (pos--) {
+            ptr = ptr->next;
+        }
+
+        Node* tmp = ptr->next->next;
+        ptr->next = tmp;
+        tmp->prev = ptr;
+    }
+
+    dllLength--;
+}
+
 void displayDLL() {
     if (head == NULL) {
         cout << "\nNo elements to print!" << endl;
@@ -144,6 +200,37 @@ int main() {
                 }
 
                 insert(num, pos);
+                displayDLL();
+
+                continue;
+            
+            case 5:
+                truncate();
+                displayDLL();
+                continue;
+
+            case 6:
+                pop();
+                displayDLL();
+                continue;
+
+            case 7:
+                cout << "\nEnter the element index's to be deleted: ";
+                cin >> pos;
+
+                while (pos > dllLength) {
+                    cout << "\nPosition greater than size of Linked List! Cannot enter element";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
+                }
+
+                while (pos <= 0) {
+                    cout << "\nPosition cannot be less than 1";
+                    cout << "\nRe-enter position: ";
+                    cin >> pos;
+                }
+
+                remove(pos);
                 displayDLL();
 
                 continue;
