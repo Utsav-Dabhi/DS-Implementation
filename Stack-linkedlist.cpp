@@ -21,6 +21,30 @@ void push(int ele) {
     top = new_node;
 }
 
+void pop() {
+    if (top == NULL) {
+        cout << "\nNo elements in stack to pop!" << endl;
+    } else {
+        top = top->next;
+    }
+}
+
+void peek() {
+    if (top == NULL) {
+        cout << "\nNo elements in stack!" << endl;
+    } else {
+        cout << "\nTop: " << top->data << endl;
+    }
+}
+
+void isEmpty() {
+    if (top == NULL) {
+        cout << "\nStack is empty" << endl;
+    } else {
+        cout << "\nStack is not empty" << endl;
+    }
+}
+
 void displayStack() {
     if (top == NULL) {
         cout << "\nNo elements in stack to print!" << endl;
@@ -57,6 +81,28 @@ int main() {
 
                 displayStack();
 
+                break;
+
+            case 2:
+                cout << "\nEnter the element to be inserted: ";
+                cin >> num;
+
+                push(num);
+                displayStack();
+
+                break;
+
+            case 3:
+                pop();
+                displayStack();
+                break;
+
+            case 4:
+                peek();
+                break;
+
+            case 5:
+                isEmpty();
                 break;
                 
             case 6:
