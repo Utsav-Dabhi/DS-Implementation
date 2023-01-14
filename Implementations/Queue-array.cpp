@@ -15,7 +15,9 @@ void createQueue(Queue* q, int size) {
 }
 
 void enqueue(Queue* q, int ele) {
-    if (q->rear == -1) {
+    if (q->rear + 1 == q->size) {
+        cout << "\nNo space in queue to enqueue!" << endl;
+    } else if (q->rear == -1) {
         q->rear++;
         q->arr[q->rear] = ele;
 
@@ -26,12 +28,45 @@ void enqueue(Queue* q, int ele) {
     }
 }
 
-void displayQueue(Queue* q) {
-    cout << "\nThe elements of queue are: front -> ";
-    for (int i = q->front; i <= q->rear; i++) {
-        cout << q->arr[i] << " ";
+void dequeue(Queue* q) {
+    if (q->rear == -1) {
+        cout << "\nNo elements in queue to dequeue!" << endl;
+    } else if (q->front == q->rear) {
+        q->front = q->rear = -1;
+    } else {
+        for (int i = q->front; i < q->rear; i++) {
+            q->arr[i] = q->arr[i + 1];
+        }
+        q->rear--;
     }
-    cout << "<- rear" << endl;
+}
+
+void peek(Queue* q) {
+    if (q->rear == -1) {
+        cout << "\nNo elements in queue!" << endl;
+    } else {
+        cout << "\nFront: " << q->arr[q->front] << endl;
+    }
+}
+
+void isEmpty(Queue* q) {
+    if (q->rear == -1) {
+        cout << "\nQueue is empty" << endl;
+    } else {
+        cout << "\nQueue is not empty" << endl;
+    }
+}
+
+void displayQueue(Queue* q) {
+    if (q->rear == -1) {
+        cout << "\nNo elements in queue to print!" << endl;
+    } else {
+        cout << "\nThe elements of queue are: front -> ";
+        for (int i = q->front; i <= q->rear; i++) {
+            cout << q->arr[i] << " ";
+        }
+        cout << "<- rear" << endl;
+    }
 }
 
 int main() {
@@ -70,6 +105,31 @@ int main() {
                 displayQueue(&que);
 
                 break;
+            
+            case 2:
+                cout << "\nEnter the element to be inserted: ";
+                cin >> num;
+
+                enqueue(&que, num);
+                displayQueue(&que);
+
+                break;
+
+            case 3:
+                dequeue(&que);
+                displayQueue(&que);
+                break;
+
+            case 4:
+                peek(&que);
+                break;
+
+            case 5:
+                isEmpty(&que);
+                break;
+
+            case 6:
+                cout << "\nExited successfully";
         }
     }
     
