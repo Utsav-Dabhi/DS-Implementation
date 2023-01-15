@@ -23,6 +23,32 @@ void enqueue(int ele) {
     }
 }
 
+void dequeue() {
+    if (rear == NULL) {
+        cout << "\nNo elements in queue to dequeue!" << endl;
+    } else if (front == rear) {
+        front = rear = NULL;
+    } else {
+        front = front->next;
+    }
+}
+
+void peek() {
+    if (rear == NULL) {
+        cout << "\nNo elements in queue!" << endl;
+    } else {
+        cout << "\nFront: " << front->data << endl;
+    }
+}
+
+void isEmpty() {
+    if (rear == NULL) {
+        cout << "\nQueue is empty" << endl;
+    } else {
+        cout << "\nQueue is not empty" << endl;
+    }
+}
+
 void displayQueue() {
     if (rear == NULL) {
         cout << "\nNo elements in queue to print!" << endl;
@@ -59,6 +85,32 @@ int main() {
 
                 displayQueue();
 
+                break;
+
+            case 2:
+                cout << "\nEnter the element to be inserted: ";
+                cin >> num;
+
+                enqueue(num);
+                displayQueue();
+
+                break;
+
+            case 3:
+                dequeue();
+                displayQueue();
+                break;
+
+            case 4:
+                peek();
+                break;
+
+            case 5:
+                isEmpty();
+                break;
+
+            case 6:
+                cout << "\nExited successfully";
                 break;
         }
     }
