@@ -28,15 +28,58 @@ void enqueueRear(DEQueue* dq, int ele) {
     }
 }
 
+void enqueueFront(DEQueue* dq, int ele) {
+    if (dq->front == 0) {
+        cout << "\nNo space in queue to enqueue from front!" << endl;
+    } else if (dq->front == -1) {
+        dq->front++;
+        dq->arr[dq->front] = ele;
+
+        dq->rear++;
+    } else {
+        dq->front--;
+        dq->arr[dq->front] = ele;
+    }
+}
+
+void dequeueFront(DEQueue* dq) {
+    if (dq->front == -1) {
+        cout << "\nNo elements in queue to dequeue!" << endl;
+    } else if (dq->front == dq->rear) {
+        dq->front = dq->rear = -1;
+    } else {
+        dq->front++;
+    }
+}
+
+void dequeueRear(DEQueue* dq) {
+    if (dq->rear == -1)  {
+        cout << "\nNo elements in queue to dequeue!" << endl;
+    } else if (dq->rear == dq->front) {
+        dq->front = dq->rear = -1;
+    } else {
+        dq->rear--;
+    }
+}
+
+void isEmpty(DEQueue* dq) {
+    if (dq->rear == -1) {
+        cout << "\nQueue is empty" << endl;
+    } else {
+        cout << "\nQueue is not empty" << endl;
+    }
+}
+
 void displayDEQueue(DEQueue* dq) {
     if (dq->rear == -1) {
         cout << "\nNo elements in queue to print!" << endl;
     } else {
         cout << "\nThe elements of queue are: front -> ";
         for (int i = dq->front; i <= dq->rear; i++) {
-            cout << dq->arr[i] << " ";
+            cout << dq->arr[i] << "(" << i << ") ";
         }
-        cout << "<- rear" << endl;
+        cout << "<- rear";
+        cout << "\nSize: " << dq->size <<  endl;
     }
 }
 
@@ -75,6 +118,38 @@ int main() {
 
                 displayDEQueue(&deq);
 
+                break;
+
+            case 2:
+                cout << "\nEnter the element to be inserted from end: ";
+                cin >> num;
+
+                enqueueRear(&deq, num);
+                displayDEQueue(&deq);
+
+                break;
+
+            case 3:
+                cout << "\nEnter the element to be inserted from front: ";
+                cin >> num;
+
+                enqueueFront(&deq, num);
+                displayDEQueue(&deq);
+
+                break;
+
+            case 4:
+                dequeueFront(&deq);
+                displayDEQueue(&deq);
+                break;
+
+            case 5:
+                dequeueRear(&deq);
+                displayDEQueue(&deq);
+                break;
+
+            case 6:
+                isEmpty(&deq);
                 break;
 
             case 7:
