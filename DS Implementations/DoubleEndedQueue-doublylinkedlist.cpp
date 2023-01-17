@@ -26,6 +26,52 @@ void enqueueRear(int ele) {
     }
 }
 
+void enqueueFront(int ele) {
+    Node* new_node = new Node;
+    new_node->data = ele;
+    new_node->prev = NULL;
+    new_node->next = NULL;
+
+    if (front == NULL) {
+        front = new_node;
+        rear = new_node;
+    } else {
+        front->prev = new_node;
+        new_node->next = front;
+        front = new_node;
+    }
+}
+
+void dequeueFront() {
+    if (front == NULL) {
+        cout << "\nNo elements in queue to dequeue!" << endl;
+    } else if (front == rear) {
+        front = rear = NULL;
+    } else {
+        front = front->next;
+        front->prev = NULL;
+    }
+}
+
+void dequeueRear() {
+    if (rear == NULL) {
+        cout << "\nNo elements in queue to dequeue!" << endl;
+    } else if (rear == front) {
+        front = rear = NULL;
+    } else {
+        rear = rear->prev;
+        rear->next = NULL;
+    }
+}
+
+void isEmpty() {
+    if (front == NULL && rear == NULL) {
+        cout << "\nQueue is empty" << endl;
+    } else {
+        cout << "\nQueue is not empty" << endl;
+    }
+}
+
 void displayDEQueue() {
     if (rear == NULL) {
         cout << "\nNo elements in queue to print!" << endl;
@@ -63,6 +109,38 @@ int main() {
 
                 displayDEQueue();
 
+                break;
+
+            case 2:
+                cout << "\nEnter the element to be inserted from end: ";
+                cin >> num;
+
+                enqueueRear(num);
+                displayDEQueue();
+
+                break;
+
+            case 3:
+                cout << "\nEnter the element to be inserted from front: ";
+                cin >> num;
+
+                enqueueFront(num);
+                displayDEQueue();
+
+                break;
+            
+            case 4:
+                dequeueFront();
+                displayDEQueue();
+                break;
+
+            case 5:
+                dequeueRear();
+                displayDEQueue();
+                break;
+
+            case 6:
+                isEmpty();
                 break;
             
             case 7:
