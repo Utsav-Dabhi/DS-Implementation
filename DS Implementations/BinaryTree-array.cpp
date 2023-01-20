@@ -66,7 +66,7 @@ void deleteRightChild(BinTree* bt, int pIndex) {
 
 // functions related to traversals
 int getLeftChild(BinTree* bt, int pIndex) {
-    if (bt->arr[pIndex] != -2147483648 && ((2 * pIndex) + 1) < bt->used) {
+    if (bt->arr[pIndex] != -2147483648 && ((2 * pIndex) + 1) < bt->size) {
         return (2 * pIndex) + 1;
     }
 
@@ -74,7 +74,7 @@ int getLeftChild(BinTree* bt, int pIndex) {
 }
 
 int getRightChild(BinTree* bt, int pIndex) {
-    if (bt->arr[pIndex] != -2147483648 && ((2 * pIndex) + 2) < bt->used) {
+    if (bt->arr[pIndex] != -2147483648 && ((2 * pIndex) + 2) < bt->size) {
         return (2 * pIndex) + 2;
     }
 
@@ -128,6 +128,26 @@ void BFS(BinTree* bt) {
 }
 // traversal functions end
 
+int isLeaf(BinTree* bt, int index) {
+    if (getLeftChild(bt, index) == -1 && getRightChild(bt, index) == -1) {
+        return 1;
+    }
+
+    if (bt->arr[getLeftChild(bt, index)] == -2147483648 && bt->arr[getRightChild(bt, index)] == -2147483648) {
+        return 1;
+    }
+
+    return 0;
+}
+
+int getHeight(BinTree* bt, int index) {
+    if (isLeaf(bt, index) || index < 0 || bt->arr[index] == -2147483648) {
+        return 0;
+    } else {
+        return max(getHeight(bt, getLeftChild(bt, index)), getHeight(bt, getRightChild(bt, index))) + 1;
+    }
+}
+
 void printBT(BinTree* bt) {
     cout << "\nThe elements of binary tree are: ";
     for (int i = 0; i < bt->size; i++) {
@@ -145,8 +165,8 @@ int main() {
     BinTree byT;
 
     int i = 0;
-    while (i != 10) {
-        cout << "\nWhat operation do you want to perform?\n1. Create a binary tree\n2. Insert left child\n3. Insert right child\n4. Delete left child\n5. Delete right child\n6. Preorder traversal\n7. Postorder traversal\n8. Inorder traversal\n9. BFS/Level Order Traversal\n10. Exit\nChoice: ";
+    while (i != 11) {
+        cout << "\nWhat operation do you want to perform?\n1. Create a binary tree\n2. Insert left child\n3. Insert right child\n4. Delete left child\n5. Delete right child\n6. Preorder traversal\n7. Postorder traversal\n8. Inorder traversal\n9. BFS/Level Order Traversal\n10. Height of a node\n11. Exit\nChoice: ";
         cin >> i;
 
         switch(i) {
@@ -252,8 +272,22 @@ int main() {
                 cout << endl;
                 break;
 
-            case 10:
+            case 10: {
+                int nodeIndex;
+                cout << "\nEnter node's index: ";
+                cin >> nodeIndex;
+                int nodeHeight = getHeight(&byT, nodeIndex);
+                cout << "\nHeight of node "<< byT.arr[nodeIndex] << " is: " << nodeHeight << endl;
+                break;
+            }
+
+            case 11:
                 cout << "\nExited successfully";
+                break;
+
+            default:
+                cout << "\nInvalid choice";
+                break;
         }
     }
     
