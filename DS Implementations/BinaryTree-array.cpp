@@ -18,12 +18,12 @@ void createBT(BinTree* bt, int level) {
     bt->arr = new int[bt->size];
 
     for (int i = 0; i < bt->size; i++) {
-        bt->arr[i] = -2147483648;
+        bt->arr[i] = -999;
     }
 }
 
 void insertLeftChild(BinTree* bt, int ele, int pIndex) {
-    if (bt->arr[pIndex] == -2147483648) {
+    if (bt->arr[pIndex] == -999) {
         cout << "\nParent not found, cannot set it's child!" << endl;
     } else {
         bt->arr[(pIndex * 2) + 1] = ele;
@@ -32,7 +32,7 @@ void insertLeftChild(BinTree* bt, int ele, int pIndex) {
 }
 
 void insertRightChild(BinTree* bt, int ele, int pIndex) {
-    if (bt->arr[pIndex] == -2147483648) {
+    if (bt->arr[pIndex] == -999) {
         cout << "\nParent not found, cannot set it's child!" << endl;
     } else {
         bt->arr[(pIndex * 2) + 2] = ele;
@@ -44,10 +44,10 @@ void deleteLeftChild(BinTree* bt, int pIndex) {
     int noOfLastLevelEle = pow(2, bt->level - 1);
     if (pIndex < 0 || pIndex >= (bt->size - noOfLastLevelEle)) {
         cout << "\nInvalid index!";
-    } else if (bt->arr[pIndex] == -2147483648) {
+    } else if (bt->arr[pIndex] == -999) {
         cout << "\nParent not found, cannot delete it's child!" << endl;
     } else {
-        bt->arr[(pIndex * 2) + 1] = -2147483648;
+        bt->arr[(pIndex * 2) + 1] = -999;
         bt->used--;
     }
 }
@@ -56,17 +56,17 @@ void deleteRightChild(BinTree* bt, int pIndex) {
     int noOfLastLevelEle = pow(2, bt->level - 1);
     if (pIndex < 0 || pIndex >= (bt->size - noOfLastLevelEle)) {
         cout << "\nInvalid index!";
-    } else if (bt->arr[pIndex] == -2147483648) {
+    } else if (bt->arr[pIndex] == -999) {
         cout << "\nParent not found, cannot delete it's child!" << endl;
     } else {
-        bt->arr[(pIndex * 2) + 2] = -2147483648;
+        bt->arr[(pIndex * 2) + 2] = -999;
         bt->used--;
     }
 }
 
 // functions related to traversals
 int getLeftChild(BinTree* bt, int pIndex) {
-    if (bt->arr[pIndex] != -2147483648 && ((2 * pIndex) + 1) < bt->size) {
+    if (bt->arr[pIndex] != -999 && ((2 * pIndex) + 1) < bt->size) {
         return (2 * pIndex) + 1;
     }
 
@@ -74,7 +74,7 @@ int getLeftChild(BinTree* bt, int pIndex) {
 }
 
 int getRightChild(BinTree* bt, int pIndex) {
-    if (bt->arr[pIndex] != -2147483648 && ((2 * pIndex) + 2) < bt->size) {
+    if (bt->arr[pIndex] != -999 && ((2 * pIndex) + 2) < bt->size) {
         return (2 * pIndex) + 2;
     }
 
@@ -82,7 +82,7 @@ int getRightChild(BinTree* bt, int pIndex) {
 }
 
 void preorder(BinTree* bt, int index) {
-    if (index >= 0 && bt->arr[index] != -2147483648) {
+    if (index >= 0 && bt->arr[index] != -999) {
         cout << bt->arr[index] << " ";
         preorder(bt, getLeftChild(bt, index));
         preorder(bt, getRightChild(bt, index));
@@ -90,7 +90,7 @@ void preorder(BinTree* bt, int index) {
 }
 
 void postorder(BinTree* bt, int index) {
-    if (index >= 0 && bt->arr[index] != -2147483648) {
+    if (index >= 0 && bt->arr[index] != -999) {
         postorder(bt, getLeftChild(bt, index));
         postorder(bt, getRightChild(bt, index));
         cout << bt->arr[index] << " ";
@@ -98,7 +98,7 @@ void postorder(BinTree* bt, int index) {
 }
 
 void inorder(BinTree* bt, int index) {
-    if (index >= 0 && bt->arr[index] != -2147483648) {
+    if (index >= 0 && bt->arr[index] != -999) {
         postorder(bt, getLeftChild(bt, index));
         cout << bt->arr[index] << " ";
         postorder(bt, getRightChild(bt, index));
@@ -133,7 +133,7 @@ int isLeaf(BinTree* bt, int index) {
         return 1;
     }
 
-    if (bt->arr[getLeftChild(bt, index)] == -2147483648 && bt->arr[getRightChild(bt, index)] == -2147483648) {
+    if (bt->arr[getLeftChild(bt, index)] == -999 && bt->arr[getRightChild(bt, index)] == -999) {
         return 1;
     }
 
@@ -141,32 +141,51 @@ int isLeaf(BinTree* bt, int index) {
 }
 
 int getHeight(BinTree* bt, int index) {
-    if (isLeaf(bt, index) || index < 0 || bt->arr[index] == -2147483648) {
+    if (isLeaf(bt, index) || index < 0 || bt->arr[index] == -999) {
         return 0;
     } else {
         return max(getHeight(bt, getLeftChild(bt, index)), getHeight(bt, getRightChild(bt, index))) + 1;
     }
 }
 
-void printBT(BinTree* bt) {
-    cout << "\nThe elements of binary tree are: ";
-    for (int i = 0; i < bt->size; i++) {
-        cout << bt->arr[i];
-        if (i == 0) {
-            cout << "(-1) ";
-        } else {
-            cout << "(" << (i - 1) / 2 << ") ";
-        }
+// functions related to printing
+void printSpace(int count) {
+    for (int x = 0; x < count; x++) {
+        cout << " ";
     }
-    cout << endl;
 }
+
+void printBT(int arr[], int size){
+    int height = ceil(log(size) + 1);   //+1 handle the last leaves
+    int width = pow(2, height) * height;
+    int index = 0;
+
+    cout << "\nBinary Tree: \n";
+    for (int x = 0; x <= height; x++) { //for each level of the tree
+        for (int z = 0; z < pow(2, x); z++) {   // for each node on that tree level
+            int digitWidth = 1;
+            if (arr[index] != 0) {
+                digitWidth = floor(log10(abs(arr[index]))) + 1;
+            }
+            printSpace(width/(pow(2, x)) - digitWidth);
+            if (index<size) {
+                cout<<arr[index++];
+            } else {
+                cout<<" ";
+            }
+            printSpace(width/(pow(2, x)));
+        }
+        cout << endl;
+    }
+}
+// printing functions end
 
 int main() {
     BinTree byT;
 
     int i = 0;
-    while (i != 11) {
-        cout << "\nWhat operation do you want to perform?\n1. Create a binary tree\n2. Insert left child\n3. Insert right child\n4. Delete left child\n5. Delete right child\n6. Preorder traversal\n7. Postorder traversal\n8. Inorder traversal\n9. BFS/Level Order Traversal\n10. Height of a node\n11. Exit\nChoice: ";
+    while (i != 12) {
+        cout << "\nWhat operation do you want to perform?\n1. Create a binary tree\n2. Insert left child\n3. Insert right child\n4. Delete left child\n5. Delete right child\n6. Preorder traversal\n7. Postorder traversal\n8. Inorder traversal\n9. BFS/Level Order Traversal\n10. Height of a node\n11. Print Binary Tree\n12. Exit\nChoice: ";
         cin >> i;
 
         switch(i) {
@@ -183,7 +202,7 @@ int main() {
                 byT.arr[0] = root;
                 byT.used++;
 
-                printBT(&byT);
+                printBT(byT.arr, byT.size);
 
                 break;
             
@@ -199,7 +218,7 @@ int main() {
                 cin >> ele >> pIndex;
 
                 insertLeftChild(&byT, ele, pIndex);
-                printBT(&byT);
+                printBT(byT.arr, byT.size);
 
                 break;
             
@@ -214,7 +233,7 @@ int main() {
                 cin >> ele >> pIndex;
 
                 insertRightChild(&byT, ele, pIndex);
-                printBT(&byT);
+                printBT(byT.arr, byT.size);
 
                 break;
 
@@ -229,8 +248,8 @@ int main() {
                 cin >> pIndex;
 
                 deleteLeftChild(&byT, pIndex);
-                printBT(&byT);
-
+                printBT(byT.arr, byT.size);
+                
                 break;
             
             case 5:
@@ -244,7 +263,7 @@ int main() {
                 cin >> pIndex;
 
                 deleteRightChild(&byT, pIndex);
-                printBT(&byT);
+                printBT(byT.arr, byT.size);
 
                 break;
 
@@ -282,6 +301,10 @@ int main() {
             }
 
             case 11:
+                printBT(byT.arr, byT.size);
+                break;
+
+            case 12:
                 cout << "\nExited successfully";
                 break;
 
