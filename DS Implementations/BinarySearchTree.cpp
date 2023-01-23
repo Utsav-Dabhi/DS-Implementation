@@ -100,6 +100,43 @@ BSTNode* deleteKey(BSTNode* root, int key) {
 
     return root;
 }
+// delete functions end
+
+int minKey(BSTNode* root) {
+    if (root == NULL) {
+        return -2147483648;
+    }
+
+    if (isLeaf(root)) {
+        return root->key;
+    } else {
+        BSTNode* curr = root;
+
+        while (curr && curr->left != NULL) {
+            curr = curr->left;
+        }
+
+        return curr->key;
+    }
+}
+
+int maxKey(BSTNode* root) {
+    if (root == NULL) {
+        return 2147483647;
+    }
+
+    if (isLeaf(root)) {
+        return root->key;
+    } else {
+        BSTNode* curr = root;
+
+        while (curr && curr->right != NULL) {
+            curr = curr->right;
+        }
+
+        return curr->key;
+    }
+}
 
 void inorder(BSTNode* root) {
     if (root != NULL) {
@@ -133,8 +170,8 @@ int main() {
     struct BSTNode* root = NULL;
 
     int i = 0;
-    while (i != 5) {
-        cout << "\nWhat operation do you want to perform?\n1. Create a binary search tree\n2. Insert a element\n3. Search an element\n4. Delete an element\n5. Exit\nChoice: ";
+    while (i != 7) {
+        cout << "\nWhat operation do you want to perform?\n1. Create a binary search tree\n2. Insert a element\n3. Search an element\n4. Delete an element\n5. Min element\n6. Max element\n7. Exit\nChoice: ";
         cin >> i;
 
         switch(i) {
@@ -173,6 +210,31 @@ int main() {
                 printBT(root);
 
                 break;
+
+            case 5: {
+                int minValue = minKey(root);
+
+                if (minValue == -2147483648) {
+                    cout << "\nNo elements in tree!" << endl;
+                } else {
+                    cout << "\nThe minimum key in BST is: " << minValue << endl;
+                }
+            }
+                break;
+
+            case 6: {
+                int maxValue = maxKey(root);
+
+                if (maxValue == 2147483647) {
+                    cout << "\nNo elements in tree!" << endl;
+                } else {
+                    cout << "\nThe maximum key in BST is: " << maxValue << endl;
+                }
+                break;
+            }
+
+            case 7:
+                cout << "\nExited successfully";
         }
     }
     
