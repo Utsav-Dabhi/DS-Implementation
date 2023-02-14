@@ -146,14 +146,27 @@ void showArray(MyArray* a) {
     cout << endl;
 }
 
+void menu() {
+    cout << "\nWhat operation do you want to perform?";
+    cout << "\n1. Create an array";
+    cout << "\n2. Insert element (at end)";
+    cout << "\n3. Delete element (from end)";
+    cout << "\n4. Insert element (in between)";
+    cout << "\n5. Delete element (from between)";
+    cout << "\n6. Search an element";
+    cout << "\n7. Replace element";
+    cout << "\n8. Sort array";
+    cout << "\n9. Print array";
+    cout << "\n10. Exit";
+    cout << "\nChoice: ";
+}
+
 int main() {
     MyArray newArray;
-    newArray.total_size = 0;
-    newArray.used_size = 0;
 
     int i = 0;
     while (i != 10) {
-        cout << "\nWhat operation do you want to perform?\n1. Create an array\n2. Insert element (at end)\n3. Delete element (from end)\n4. Insert element (in between)\n5. Delete element (from between)\n6. Search an element\n7. Replace element\n8. Sort array\n9. Print array\n10. Exit\nChoice: ";
+        menu();
         cin >> i;
 
         switch(i) {
@@ -316,7 +329,6 @@ int main() {
                 cout << "\nExited successfully";
                 break;
         }
-
     }
 
     return 0;
